@@ -1,0 +1,33 @@
+<DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naruto Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <audio id="bg-music" loop autoplay>
+        <source src="naruto-the-raising-fighting-spirit-extended-audiotrimmer_7wvXRts.mp3" type="audio/mp3">
+    </audio>
+
+    <div class="quiz-container">
+        <h1>🔥 Naruto Quiz 🔥</h1>
+        <p id="progress-text"></p>
+        <h2 id="question-text">Loading question...</h2>
+        <div id="answer-buttons"></div>
+        <button id="next-btn">Next</button>
+        <button id="restart-btn">Restart Quiz</button>
+        <p id="score-text"></p>
+    </div>
+
+    <audio id="correct-sound">
+        <source src="audio/soundscrate_Shuriken_Throw_With_Tail (1).mp3" type="audio/mp3">
+    </audio>
+    <audio id="wrong-sound">
+        <source src="audio/soundscrate_Shuriken_Throw_Rise_Doppler.mp3" type="audio/mp3">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>

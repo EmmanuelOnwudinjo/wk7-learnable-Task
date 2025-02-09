@@ -1,0 +1,67 @@
+
+body {
+    font-family: 'Oswald', sans-serif;
+    text-align: center;
+    background-image: url('image/5d8c2902bd69aa1f1975bcbdca5ff83b.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+.quiz-container {
+    width: 50%;
+    margin: auto;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 20px orange;
+    border-radius: 10px;
+    margin-top: 50px;
+    color: white;
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+h1 {
+    font-size: 32px;
+    text-shadow: 2px 2px 5px orange;
+    animation: glow 1.5s infinite alternate;
+}
+
+@keyframes glow {
+    from { text-shadow: 2px 2px 10px orange; }
+    to { text-shadow: 2px 2px 20px red; }
+}
+
+#answer-buttons button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 12px;
+    font-size: 18px;
+    border: none;
+    background: linear-gradient(90deg, orange, red);
+    color: white;
+    cursor: pointer;
+    transition: 0.3s, transform 0.2s;
+    border-radius: 5px;
+}
+
+#answer-buttons button:hover {
+    background: linear-gradient(90deg, red, orange);
+    transform: scale(1.05);
+}
+
+#restart-btn {
+    background: red;
+    display: none;
+}
+
+#restart-btn:hover {
+    background: darkred;
+}
