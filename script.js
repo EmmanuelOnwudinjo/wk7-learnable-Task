@@ -10,6 +10,7 @@ const questions = [
 
 let currentQuestionIndex = 0;
 let score = 0;
+let autoProgressTimeout; // Timer for auto-progression
 
 const questionText = document.getElementById("question-text");
 const answerButtons = document.getElementById("answer-buttons");
@@ -22,28 +23,40 @@ const correctSound = document.getElementById("correct-sound");
 const wrongSound = document.getElementById("wrong-sound");
 const bgMusic = document.getElementById("bg-music");
 
+// Set sound volumes.
+correctSound.volume = 1.0;
+wrongSound.volume = 1.0;
+
 function loadQuestion() {
     resetState();
-    let currentQuestion = questions[currentQuestionIndex];
+    const currentQuestion = questions[currentQuestionIndex];
     questionText.innerText = currentQuestion.question;
     progressText.innerText = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
     
     currentQuestion.answers.forEach((answer, index) => {
-        let button = document.createElement("button");
+        const button = document.createElement("button");
         button.innerText = answer;
-        button.addEventListener("click", () => checkAnswer(index));
+        button.addEventListener("click", () => checkAnswer(index, button));
         answerButtons.appendChild(button);
     });
+    // The Next button remains visible throughout.
+    nextBtn.style.display = "block";
 }
 
 function resetState() {
     answerButtons.innerHTML = "";
     scoreText.innerText = "";
-    nextBtn.style.display = "none";
+    // Removed the line that hides the Next button so it always shows.
+    // nextBtn.style.display = "none";
 }
 
-function checkAnswer(selectedIndex) {
-    let correctIndex = questions[currentQuestionIndex].correct;
+function checkAnswer(selectedIndex, selectedButton) {
+    const currentQuestion = questions[currentQuestionIndex];
+    const correctIndex = currentQuestion.correct;
+    
+    // Disable all answer buttons.
+    const buttons = answerButtons.querySelectorAll("button");
+    buttons.forEach(btn => btn.disabled = true);
     
     if (selectedIndex === correctIndex) {
         score++;
@@ -51,12 +64,28 @@ function checkAnswer(selectedIndex) {
     } else {
         wrongSound.play();
     }
+    
+    // Reveal the Next button (it is always visible now).
+    nextBtn.style.display = "block";
+    
+    // Auto-progress after 2 seconds.
+    autoProgressTimeout = setTimeout(() => {
+        goToNextQuestion();
+    }, 2000);
+}
 
+nextBtn.addEventListener("click", () => {
+    // If user clicks Next manually, cancel the auto-progression timer.
+    clearTimeout(autoProgressTimeout);
+    goToNextQuestion();
+});
+
+function goToNextQuestion() {
     currentQuestionIndex++;
     if (currentQuestionIndex < questions.length) {
-        setTimeout(loadQuestion, 1000); 
+        loadQuestion();
     } else {
-        setTimeout(showResults, 1000);
+        showResults();
     }
 }
 
@@ -65,6 +94,7 @@ function showResults() {
     answerButtons.innerHTML = "";
     progressText.innerText = "";
     scoreText.innerText = `Final Score: ${score} / ${questions.length}`;
+    // Optionally, you can hide the Next button at the end.
     nextBtn.style.display = "none";
     restartBtn.style.display = "block";
 }
@@ -76,12 +106,12 @@ restartBtn.addEventListener("click", () => {
     loadQuestion();
 });
 
+// Background music handling.
 bgMusic.volume = 1.0;
 document.addEventListener("DOMContentLoaded", () => {
     bgMusic.play().catch(() => {
         console.log("Autoplay blocked, waiting for user interaction...");
     });
-
     document.body.addEventListener("click", () => {
         if (bgMusic.paused) {
             bgMusic.play();
